@@ -1,13 +1,19 @@
 {
-  "name": "ekhorkov",
+  "name": "ekhorkov-rls-audit",
   "owner": {
     "name": "ekhorkov"
+  },
+  "metadata": {
+    "description": "RLS audit skill for PostgreSQL/Supabase",
+    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "rls-audit",
-      "source": ".",
-      "description": "Audit Row Level Security (RLS) policies in PostgreSQL/Supabase databases"
+      "description": "Audit Row Level Security (RLS) policies in PostgreSQL/Supabase databases",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/rls-audit"]
     }
   ]
 }
