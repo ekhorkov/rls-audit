@@ -24,13 +24,13 @@ Add the marketplace and install:
 
 ```
 /plugin marketplace add ekhorkov/rls-audit
-/plugin install rls-audit@ekhorkov
+/plugin install rls-audit@ekhorkov-rls-audit
 ```
 
 Or one-liner via CLI:
 
 ```bash
-claude plugin marketplace add ekhorkov/rls-audit && claude plugin install rls-audit@ekhorkov
+claude plugin marketplace add ekhorkov/rls-audit && claude plugin install rls-audit@ekhorkov-rls-audit
 ```
 
 #### Manual install (per-user)
