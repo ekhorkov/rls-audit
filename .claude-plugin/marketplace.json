@@ -1,0 +1,13 @@
+{
+  "name": "ekhorkov",
+  "owner": {
+    "name": "ekhorkov"
+  },
+  "plugins": [
+    {
+      "name": "rls-audit",
+      "source": ".",
+      "description": "Audit Row Level Security (RLS) policies in PostgreSQL/Supabase databases"
+    }
+  ]
+}

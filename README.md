@@ -18,39 +18,53 @@ Works with Claude Code, OpenAI Codex, Cursor, Windsurf, GitHub Copilot, Gemini C
 
 ## Install
 
-### Claude Code / Codex
+### Claude Code / Codex (plugin)
 
-#### Per-user (available in all projects)
+Add the marketplace and install:
+
+```
+/plugin marketplace add ekhorkov/rls-audit
+/plugin install rls-audit@ekhorkov
+```
+
+Or one-liner via CLI:
 
 ```bash
-mkdir -p ~/.claude/skills/rls-audit
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/SKILL.md \
-  -o ~/.claude/skills/rls-audit/SKILL.md
+claude plugin marketplace add ekhorkov/rls-audit && claude plugin install rls-audit@ekhorkov
+```
+
+#### Manual install (per-user)
+
+```bash
 mkdir -p ~/.claude/skills/rls-audit/references
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/audit-queries.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
+  -o ~/.claude/skills/rls-audit/SKILL.md
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/audit-queries.md \
   -o ~/.claude/skills/rls-audit/references/audit-queries.md
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/common-vulnerabilities.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/common-vulnerabilities.md \
   -o ~/.claude/skills/rls-audit/references/common-vulnerabilities.md
 ```
 
-#### Per-project (committed to repo)
+#### Manual install (per-project)
 
 ```bash
 mkdir -p .claude/skills/rls-audit/references
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/SKILL.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
   -o .claude/skills/rls-audit/SKILL.md
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/{audit-queries,common-vulnerabilities}.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/{audit-queries,common-vulnerabilities}.md \
   -o '.claude/skills/rls-audit/references/#1.md'
 ```
 
 ### OpenAI Codex
 
-Codex reads instructions from `AGENTS.md` or markdown files in the repo. Add the skill to your project:
+Codex reads instructions from `AGENTS.md` or markdown files in the repo:
 
 ```bash
 mkdir -p codex/skills/rls-audit/references
-cp SKILL.md codex/skills/rls-audit/
-cp references/*.md codex/skills/rls-audit/references/
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
+  -o codex/skills/rls-audit/SKILL.md
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/{audit-queries,common-vulnerabilities}.md \
+  -o 'codex/skills/rls-audit/references/#1.md'
 ```
 
 Then reference it in your `AGENTS.md`:
@@ -64,9 +78,9 @@ Then reference it in your `AGENTS.md`:
 
 ```bash
 mkdir -p .cursor/skills/rls-audit/references
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/SKILL.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
   -o .cursor/skills/rls-audit/SKILL.md
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/{audit-queries,common-vulnerabilities}.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/{audit-queries,common-vulnerabilities}.md \
   -o '.cursor/skills/rls-audit/references/#1.md'
 ```
 
@@ -76,9 +90,9 @@ Or add the content of `SKILL.md` to your `.cursorrules` file.
 
 ```bash
 mkdir -p .windsurf/skills/rls-audit/references
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/SKILL.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
   -o .windsurf/skills/rls-audit/SKILL.md
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/{audit-queries,common-vulnerabilities}.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/{audit-queries,common-vulnerabilities}.md \
   -o '.windsurf/skills/rls-audit/references/#1.md'
 ```
 
@@ -86,13 +100,11 @@ Or add the content of `SKILL.md` to your `.windsurfrules` file.
 
 ### GitHub Copilot
 
-Add the skill as a custom instruction:
-
 ```bash
 mkdir -p .github/copilot/skills/rls-audit/references
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/SKILL.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/SKILL.md \
   -o .github/copilot/skills/rls-audit/SKILL.md
-curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/references/{audit-queries,common-vulnerabilities}.md \
+curl -sL https://raw.githubusercontent.com/ekhorkov/rls-audit/main/skills/rls-audit/references/{audit-queries,common-vulnerabilities}.md \
   -o '.github/copilot/skills/rls-audit/references/#1.md'
 ```
 
@@ -117,10 +129,15 @@ The skill will scan your Supabase migrations, run audit queries, classify findin
 ## Structure
 
 ```
-SKILL.md                              — Skill definition and workflow
-references/
-  audit-queries.md                    — SQL queries for each audit check
-  common-vulnerabilities.md           — Top 10 RLS vulnerability patterns
+.claude-plugin/
+  plugin.json                         — Plugin manifest (name, version, author)
+  marketplace.json                    — Marketplace index for /plugin install
+skills/
+  rls-audit/
+    SKILL.md                          — Skill definition and workflow
+    references/
+      audit-queries.md                — SQL queries for each audit check
+      common-vulnerabilities.md       — Top 10 RLS vulnerability patterns
 ```
 
 ## License

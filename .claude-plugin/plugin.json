@@ -1,0 +1,8 @@
+{
+  "name": "rls-audit",
+  "description": "Audit Row Level Security (RLS) policies in PostgreSQL/Supabase databases. Finds tables without RLS, missing policies, overly permissive rules, SECURITY DEFINER bypasses, and tenant isolation leaks.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ekhorkov"
+  }
+}
